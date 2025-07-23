@@ -2,11 +2,9 @@ package com.ciprian.store_management_tool.service;
 
 import com.ciprian.store_management_tool.model.Product;
 import com.ciprian.store_management_tool.repository.ProductRepository;
-import org.hibernate.annotations.CurrentTimestamp;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +33,14 @@ public class ProductService {
 
     public void deleteById(String barcode) {
         repository.deleteById(barcode);
+    }
+
+    public Optional<Product> updatePrice(String barcode, BigDecimal newPrice) {
+        return repository.findById(barcode)
+                .map(product -> {
+                    product.setPrice(newPrice);
+                    return repository.save(product);
+                });
     }
 
 }

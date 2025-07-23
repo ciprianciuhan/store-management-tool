@@ -1,5 +1,6 @@
 package com.ciprian.store_management_tool.controller;
 
+import com.ciprian.store_management_tool.dto.UpdatePriceRequest;
 import com.ciprian.store_management_tool.model.Product;
 import com.ciprian.store_management_tool.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -37,4 +38,12 @@ public class ProductController {
         service.deleteById(barcode);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{barcode}/price")
+    public ResponseEntity<Product> updatePrice(@PathVariable String barcode, @RequestBody UpdatePriceRequest request) {
+        return service.updatePrice(barcode, request.price())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }
