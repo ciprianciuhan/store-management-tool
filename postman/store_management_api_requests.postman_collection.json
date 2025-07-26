@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "7b53439d-ae43-4e14-8da8-cb3b74b99184",
+		"name": "store_management_api_requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15000233"
+	},
+	"item": [
+		{
+			"name": "create product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhQkFjU09hZldKRWpWRGloMjluUWpjMDk3RFcxeWtaZURTQkRHeXBFLVdVIn0.eyJleHAiOjE3NTM1Mzc2NDYsImlhdCI6MTc1MzUzNzM0NiwianRpIjoiMjc3OGNiODItMDg4OC00ZTA2LTk0OTQtY2UxZDNhNzg3MTEzIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9JTkciLCJzdWIiOiJhYzhlZGNkYi1iNzY1LTRlZDctYmI0OS1iNjI4YzBlZjQxY2QiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzdG9yZS1hcGkiLCJzZXNzaW9uX3N0YXRlIjoiOTI5N2IxMDktZWI4NS00N2NmLWFiMjUtODNiZDA1MGM0NjZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJST0xFX0FETUlOIl19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI5Mjk3YjEwOS1lYjg1LTQ3Y2YtYWIyNS04M2JkMDUwYzQ2NmMiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluX3VzZXIifQ.kLF2xz1_tx4bStcaLlbMyk_wi1IZjLW6bfLElVViqBubkHSPgA_p6dxc8ZNs2a-pYWrTKkCB63YPc_96MbFsZh-oweLj1ZX-skQSXK5M-rMMhI6sYRgoUh-2GrZB1_Wm9-rNA6r9WrISPaJJQeDm-hucwMoHkq54n4hTyLdFWL6h6XgM3BQrN5zoo9IdSSxeuvKxSL4TXKl6-EV3oqAmtj8Y9CZB97QpuxLDHQ7rrqFTLvLipPn02MHxqcaSgyWjMCStc1UmYAeR3kcahATilZUUhATkiEZlzZqUfGN-9k1rmwx8G5kOdjm4pxaomq16iYtulSyIxH7bzMLD5pSN4g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"barcode\": \"77777777u\",\n  \"name\": \"Test Product 4\",\n  \"price\": 17.99,\n  \"quantity\": 12\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/store-api/v1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"store-api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update price",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhQkFjU09hZldKRWpWRGloMjluUWpjMDk3RFcxeWtaZURTQkRHeXBFLVdVIn0.eyJleHAiOjE3NTM1MzIyMzIsImlhdCI6MTc1MzUzMTkzMiwianRpIjoiOGYwM2ExMDItYjE0YS00NDM1LWI0Y2QtNjM5YTdlYWU1OWM2IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9JTkciLCJzdWIiOiJhYzhlZGNkYi1iNzY1LTRlZDctYmI0OS1iNjI4YzBlZjQxY2QiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzdG9yZS1hcGkiLCJzZXNzaW9uX3N0YXRlIjoiZWRlYzNjMDMtNjk5OC00MjM2LWIwNzUtNTE0MWIyYTU0ZThhIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJST0xFX0FETUlOIl19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiJlZGVjM2MwMy02OTk4LTQyMzYtYjA3NS01MTQxYjJhNTRlOGEiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluX3VzZXIifQ.T9mmgRLzjhwzaqpVpcaC3nkS-yEvV9YMBxqEDm-jBWBL3TJsqcNyfQs0b5HlDYT8E33jeLEvz5qhBymTDUivKDAePoKhCDzHADfVEHpjwwztFzuZthNl443K0SOCtPBKv5dZ-pOJ2fk3WSR_0aX_hO2CUwTGJccj1VyfKzrEijPCDOkoh87PemWzULWEHYs5GohmEcgHnLbPsnlCow3PV2wNVx8-XHzZQtxBah-Jwo4JgSExea27fC-2EF1ZUi_CxeJsi2rGqGYMQgpnuyc7wjC9oYM7dK7Qk4NJIBzyOeIjVMcAV5Fi-x3TnWN8q0dPXxDB7_ar9XEdx4W6qhVDRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"price\": 9.88\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/store-api/v1/products/1234567890123/price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"store-api",
+						"v1",
+						"products",
+						"1234567890123",
+						"price"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhQkFjU09hZldKRWpWRGloMjluUWpjMDk3RFcxeWtaZURTQkRHeXBFLVdVIn0.eyJleHAiOjE3NTM1Mzc0NTYsImlhdCI6MTc1MzUzNzE1NiwianRpIjoiNzkyMTJhYmQtYjVkZi00ZjA3LWFiODQtMWJhZmZhMGFjYjYyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9JTkciLCJzdWIiOiJhYzhlZGNkYi1iNzY1LTRlZDctYmI0OS1iNjI4YzBlZjQxY2QiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzdG9yZS1hcGkiLCJzZXNzaW9uX3N0YXRlIjoiZDE2ZDc1ZGEtMjA3YS00NTllLWE4ZTEtM2RlNTI2MjU5MzdiIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJST0xFX0FETUlOIl19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiJkMTZkNzVkYS0yMDdhLTQ1OWUtYThlMS0zZGU1MjYyNTkzN2IiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluX3VzZXIifQ.OK77CcHNhxjylWqyZ3YdaE3a45RwtzhVZK5Odud0Tv-zhyO-tAfAr5CBX46ERd3C3vSQ1q-3aIoSlbhnb5SuXmll18v80BjlBXtsC5goi04GVIcuUs5yDxQcgu3ivBIcB9fbgleXO8ldMpK9wz17S6es6DCzTXc84WrWgDRC-hzlh3owxNgLcI7FKsyuINJVJrb8NXXGzkW-2vSexCxjQNunK_yt3JsXff4T-GrU6MqeN4qoLFWLdEoDPAILPOTWMNUkgRMLC_SN35xueDKaIPimaRWc7JXAl6-Nefe5g2cS__CTuF5LCSt_GD6vsc7PDpAIT2HD8Pe0XWTo8waLLA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/store-api/v1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"store-api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "admin_user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin123",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "store-api",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/realms/ING/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"realms",
+						"ING",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "customer_user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "user123",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "store-api",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/realms/ING/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"realms",
+						"ING",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhQkFjU09hZldKRWpWRGloMjluUWpjMDk3RFcxeWtaZURTQkRHeXBFLVdVIn0.eyJleHAiOjE3NTM1Mzc2NjIsImlhdCI6MTc1MzUzNzM2MiwianRpIjoiMDdhMzc5NGItMGRkMi00NTlkLTliYmItMWVhZWJlNzIyMGQxIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9JTkciLCJzdWIiOiIyOTExNTc5Yi00NTU2LTRhN2EtYWIxMS0yZDFlODliZTA5OWQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzdG9yZS1hcGkiLCJzZXNzaW9uX3N0YXRlIjoiYjViYzExZjctZjU2MS00MDAxLWI3NTUtODk1NTc4YWJiMDJiIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJST0xFX1VTRVIiXX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImI1YmMxMWY3LWY1NjEtNDAwMS1iNzU1LTg5NTU3OGFiYjAyYiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoiY3VzdG9tZXJfdXNlciJ9.PINE-FgzFTd0cTK7A2LCxnMT6obVe_dHKamcc1hEvn3VY50DMF5IcAEW0cwSG12GwyO_YvlJJldGqEKIFly1ye6Wu6X9xdNcCY35_KKH2MIQLcpW6eF2FzKqTjofRJCWaDOTdyv_PK5cYMwDAEJ2SMmPwwQwshzXIYyuvS8w-1xkEYFJKbMOi8JJYqPCOp32eaelawFxUmlnRz0t6lUFGascZe_YzK1vSmvzq9ZRsBUqNiMCYAVbFI2CSKukBuDJYYjk7DY99994fbkZI_lk5gDpc0KTmljmPSPmO0SCdE2Ue3t4PUpY6oSimSsIX7uBAi8l7_vmvZ8nl--r7HmMcw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:8090/store-api/v1/products/77777777u",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"store-api",
+						"v1",
+						"products",
+						"77777777u"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
