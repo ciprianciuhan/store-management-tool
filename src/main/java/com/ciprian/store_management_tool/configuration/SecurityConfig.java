@@ -1,6 +1,5 @@
 package com.ciprian.store_management_tool.configuration;
 
-import com.ciprian.store_management_tool.exception.AccessDeniedStoreException;
 import com.ciprian.store_management_tool.exception.AuthenticationStoreException;
 import com.ciprian.store_management_tool.exception.StoreExceptionType;
 import lombok.extern.slf4j.Slf4j;
