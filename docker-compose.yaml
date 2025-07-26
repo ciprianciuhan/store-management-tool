@@ -13,3 +13,17 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:22.0.3
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: dev-mem
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    restart: unless-stopped

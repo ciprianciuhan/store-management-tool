@@ -1,24 +1,86 @@
 package com.ciprian.store_management_tool.configuration;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
+@Slf4j
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
+    private final HandlerExceptionResolver handlerExceptionResolver;
+
+    public SecurityConfig(@Qualifier("handlerExceptionResolver")HandlerExceptionResolver handlerExceptionResolver) {
+        this.handlerExceptionResolver = handlerExceptionResolver;
+    }
+
+    @Value("${role.admin:ADMIN}")
+    private String adminRole;
+
+    @Value("${role.user:USER}")
+    private String customerRole;
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+    SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        http.authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/products").hasRole(adminRole)
+                        .requestMatchers(HttpMethod.PATCH, "/products/**").hasRole(adminRole)
+                        .requestMatchers(HttpMethod.GET, "/products/**").hasAnyRole(adminRole, customerRole)
+                        .anyRequest()
+                        .denyAll()
+
                 )
-                .httpBasic(Customizer.withDefaults());
+                .exceptionHandling(handling -> handling
+                        .authenticationEntryPoint(authenticationEntryPoint())
+                        .accessDeniedHandler(accessDeniedHandler())
+                );
+
+        http.oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
+                .authenticationEntryPoint(authenticationEntryPoint())
+                .accessDeniedHandler(accessDeniedHandler())
+        );
 
         return http.build();
     }
+
+    @Bean
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, authException) ->
+                handlerExceptionResolver.resolveException(request, response, null, authException);
+    }
+
+    private AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) ->
+                handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
+    }
+
 }

@@ -1,0 +1,64 @@
+{
+  "realm": "ING",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      { "name": "ROLE_ADMIN" },
+      { "name": "ROLE_USER" }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin_user",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": "false"
+        }
+      ],
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "access": {
+        "managedGroupMembership": true,
+        "view": true,
+        "mapRoles": true,
+        "impersonate": true,
+        "manage": true
+      },
+      "realmRoles": ["ROLE_ADMIN"]
+    },
+    {
+      "username": "customer_user",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user123",
+          "temporary": "false"
+        }
+      ],
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "access": {
+        "managedGroupMembership": true,
+        "view": true,
+        "mapRoles": true,
+        "impersonate": true,
+        "manage": true
+      },
+      "realmRoles": ["ROLE_USER"]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "store-api",
+      "publicClient": false,
+      "secret": "secret123",
+      "directAccessGrantsEnabled": true,
+      "redirectUris": ["*"],
+      "defaultRoles": ["ROLE_USER"]
+    }
+  ]
+}
