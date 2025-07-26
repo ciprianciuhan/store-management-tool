@@ -1,0 +1,266 @@
+openapi: 3.0.3
+info:
+  title: Store Management Tool API
+  description: |
+    API for managing store products. This API allows administrators to create, retrieve, update, and delete products.
+    It provides functionality for inventory management with product details such as barcodes, names, prices, and quantities.
+  version: 1.0.0
+  contact:
+    name: Ciprian
+    email: ciprian@example.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+tags:
+  - name: products
+    description: Operations related to product management
+
+security:
+  - bearerAuth: []
+
+paths:
+  /products:
+    get:
+      tags:
+        - products
+      summary: Get all products
+      description: Retrieve a list of all products in the inventory
+      operationId: getAllProducts
+      responses:
+        '200':
+          description: List of products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    post:
+      tags:
+        - products
+      summary: Create a new product
+      description: Add a new product to the inventory
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /products/{barcode}:
+    parameters:
+      - name: barcode
+        in: path
+        description: Barcode of the product
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - products
+      summary: Get product by barcode
+      description: Retrieve a specific product using its barcode
+      operationId: getProductByBarcode
+      responses:
+        '200':
+          description: Product retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - products
+      summary: Delete product
+      description: Remove a product from the inventory
+      operationId: deleteProduct
+      responses:
+        '204':
+          description: Product deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /products/{barcode}/price:
+    parameters:
+      - name: barcode
+        in: path
+        description: Barcode of the product
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - products
+      summary: Update product price
+      description: Update the price of a specific product
+      operationId: updateProductPrice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePriceRequest'
+      responses:
+        '200':
+          description: Product price updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Product:
+      type: object
+      properties:
+        barcode:
+          type: string
+          description: Unique identifier for the product (UPC, EAN, etc.)
+          example: "123456789"
+        name:
+          type: string
+          description: Name of the product
+          example: "Organic Milk"
+        price:
+          type: number
+          format: double
+          description: Current price of the product
+          example: 3.99
+        quantity:
+          type: integer
+          description: Current stock quantity
+          example: 100
+        createdAt:
+          type: string
+          format: date-time
+          description: Date and time when the product was added to the system
+          example: "2025-07-26T10:00:00Z"
+      required:
+        - barcode
+        - name
+        - price
+        - quantity
+
+    ProductRequest:
+      type: object
+      properties:
+        barcode:
+          type: string
+          description: Unique identifier for the product (UPC, EAN, etc.)
+          example: "123456789"
+        name:
+          type: string
+          description: Name of the product
+          example: "Organic Milk"
+        price:
+          type: number
+          format: double
+          description: Current price of the product
+          example: 3.99
+        quantity:
+          type: integer
+          description: Current stock quantity
+          example: 100
+      required:
+        - barcode
+        - name
+        - price
+        - quantity
+
+    UpdatePriceRequest:
+      type: object
+      properties:
+        price:
+          type: number
+          format: double
+          description: New price for the product
+          example: 4.99
+      required:
+        - price
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: "RESOURCE_NOT_FOUND"
+        message:
+          type: string
+          description: Error message
+          example: "Product with barcode 123456789 not found"
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the error occurred
+          example: "2025-07-26T10:30:00Z"
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

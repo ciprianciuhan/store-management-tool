@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/products").hasRole(adminRole)
                         .requestMatchers(HttpMethod.PATCH, "/products/**").hasRole(adminRole)
+                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole(adminRole)
                         .requestMatchers(HttpMethod.GET, "/products/**").hasAnyRole(adminRole, customerRole)
                         .anyRequest()
                         .denyAll()

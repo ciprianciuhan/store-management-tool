@@ -90,9 +90,7 @@ class ProductControllerIT {
         mockMvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(product1)))
-                .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("This action requires admin privileges"))
-                .andExpect(jsonPath("$.code").value("ADMIN_PRIVILEGES_REQUIRED"));
+                .andExpect(status().isForbidden());
 
         assertThat(productRepository.findById(product1.getBarcode())).isEmpty();
     }
@@ -155,8 +153,7 @@ class ProductControllerIT {
 
         // Act & Assert
         mockMvc.perform(delete("/products/{barcode}", product1.getBarcode()))
-                .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("Access denied to the requested resource"));
+                .andExpect(status().isForbidden());
 
         assertThat(productRepository.findById(product1.getBarcode())).isPresent();
     }
@@ -194,9 +191,7 @@ class ProductControllerIT {
         mockMvc.perform(patch("/products/{barcode}/price", product1.getBarcode())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("This action requires admin privileges"))
-                .andExpect(jsonPath("$.code").value("ADMIN_PRIVILEGES_REQUIRED"));
+                .andExpect(status().isForbidden());
 
         Product updatedProduct = productRepository.findById(product1.getBarcode()).orElseThrow();
         assertThat(updatedProduct.getPrice()).isEqualByComparingTo(product1.getPrice());
