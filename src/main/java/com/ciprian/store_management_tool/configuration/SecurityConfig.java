@@ -1,5 +1,8 @@
 package com.ciprian.store_management_tool.configuration;
 
+import com.ciprian.store_management_tool.exception.AccessDeniedStoreException;
+import com.ciprian.store_management_tool.exception.AuthenticationStoreException;
+import com.ciprian.store_management_tool.exception.StoreExceptionType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -74,8 +77,19 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
-        return (request, response, authException) ->
-                handlerExceptionResolver.resolveException(request, response, null, authException);
+        return (request, response, authException) -> {
+
+            AuthenticationStoreException storeException;
+            if (authException.getMessage() != null && authException.getMessage().contains("expired")) {
+                storeException = new AuthenticationStoreException(StoreExceptionType.TOKEN_EXPIRED);
+            } else if (authException.getMessage() != null && authException.getMessage().contains("invalid")) {
+                storeException = new AuthenticationStoreException(StoreExceptionType.TOKEN_INVALID);
+            } else {
+                storeException = new AuthenticationStoreException(StoreExceptionType.AUTHENTICATION_REQUIRED);
+            }
+
+            handlerExceptionResolver.resolveException(request, response, null, storeException);
+        };
     }
 
     private AccessDeniedHandler accessDeniedHandler() {
