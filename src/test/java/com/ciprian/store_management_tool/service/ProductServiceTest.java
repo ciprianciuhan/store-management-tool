@@ -27,6 +27,9 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private ProductEventPublisher productEventPublisher;
+
     @InjectMocks
     private ProductService productService;
 

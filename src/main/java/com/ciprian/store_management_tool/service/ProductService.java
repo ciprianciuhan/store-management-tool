@@ -1,9 +1,11 @@
 package com.ciprian.store_management_tool.service;
 
+import com.ciprian.store_management_tool.dto.ProductCreatedEvent;
 import com.ciprian.store_management_tool.model.Product;
 import com.ciprian.store_management_tool.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,10 +20,15 @@ public class ProductService {
 
     private final ProductRepository repository;
 
+    @Autowired
+    private ProductEventPublisher eventPublisher;
+
     public Product save(Product product) {
         log.info("Saving product with barcode: {}", product.getBarcode());
         product.setCreatedAt(LocalDateTime.now());
-        return repository.save(product);
+        Product saved = repository.save(product);
+        eventPublisher.publish(new ProductCreatedEvent(saved.getBarcode(), saved.getName(), saved.getPrice()));
+        return saved;
     }
 
     public Optional<Product> findById(String barcode) {
