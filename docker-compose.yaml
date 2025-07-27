@@ -53,8 +53,6 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-
-
   kafka-consumer:
     image: edenhill/kafkacat:1.6.0
     depends_on:

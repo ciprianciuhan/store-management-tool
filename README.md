@@ -35,7 +35,7 @@ A Spring Boot application that mimics the management of a store's inventory of p
 2. Install Docker on your machine
 3. Run the Docker Compose file from the project
 4. Build with `mvn clean install`
-5. Run the app
+5. Run the app from IntelliJ (create a run config) or with `mvn spring-boot:run -Dspring-boot.run.profiles=local`
 6. To check Kafka event consumption, go in Docker -> kafka-consumer -> check the logs
 
 ### Configuration
@@ -63,6 +63,10 @@ Actuator endpoints are available at `/store-api/v1/actuator/`
 ## Security
 
 The application uses OAuth2 with JWT tokens for authentication and role-based authorization. Authentication is handled by Keycloak.
+
+## Event Streaming
+
+There is only one type of event, ProductCreatedEvent, which will be consumed by the kafkacat container (it will just get printed in the logs).
 
 ## Testing
 
