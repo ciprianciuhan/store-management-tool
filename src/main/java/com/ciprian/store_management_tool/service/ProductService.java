@@ -1,6 +1,7 @@
 package com.ciprian.store_management_tool.service;
 
 import com.ciprian.store_management_tool.dto.ProductCreatedEvent;
+import com.ciprian.store_management_tool.exception.DuplicateProductException;
 import com.ciprian.store_management_tool.model.Product;
 import com.ciprian.store_management_tool.repository.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,12 @@ public class ProductService {
 
     public Product save(Product product) {
         log.info("Saving product with barcode: {}", product.getBarcode());
+
+        if (repository.existsById(product.getBarcode())) {
+            log.warn("Attempt to create duplicate product with barcode: {}", product.getBarcode());
+            throw new DuplicateProductException(product.getBarcode());
+        }
+
         product.setCreatedAt(LocalDateTime.now());
         Product saved = repository.save(product);
         eventPublisher.publish(new ProductCreatedEvent(saved.getBarcode(), saved.getName(), saved.getPrice()));
